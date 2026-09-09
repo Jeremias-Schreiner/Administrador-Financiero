@@ -1,0 +1,10 @@
+# Env (puede aparecer en cualquier carpeta: raiz, backend o frontend)
+.env
+.env.local
+
+# Editores
+.vscode/
+.idea/
+
+# Sistema
+.DS_Store

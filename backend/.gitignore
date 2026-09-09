@@ -1,0 +1,6 @@
+# Bytecode compilado de Python
+__pycache__/
+*.pyc
+
+# Entorno virtual (si se corre fuera de Docker)
+.venv/

@@ -1,0 +1,47 @@
+# Definicion de los contenedores que quiero levantar y con que nombre (db, backend, frontend)
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: adm_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    # al ser un volumen vive fuera del contenedor, esto se monta en una carpeta interna
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    container_name: adm_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    # esto esta montado en un volum para permitir el hot-reload
+    volumes:
+      - ./backend/app:/app/app
+    # genera una dependecia de inicio con el contenedor db, esto solamente 
+    # determina el orden de arranque 
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    container_name: adm_frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+# Declaracion de los volumenes con nombre que se usan en los servicios
+volumes:
+  db_data:

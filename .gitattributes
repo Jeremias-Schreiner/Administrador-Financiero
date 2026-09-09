@@ -1,0 +1,10 @@
+# Fuerza LF (Unix) en todos los archivos de texto, sin importar el sistema
+# operativo desde el que se clone o edite el repo. Esto evita que scripts
+# como entrypoint.sh fallen al correr dentro de los contenedores Linux
+# cuando se editan o clonan desde Windows.
+* text=auto eol=lf
+
+# Los binarios no se tocan
+*.png binary
+*.jpg binary
+*.ico binary
