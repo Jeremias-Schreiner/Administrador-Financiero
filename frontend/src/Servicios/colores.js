@@ -1,6 +1,6 @@
 export const COLORES = Object.freeze({
-  AZUL: '#3A6EA5',
-  ROJO: '#B5651D',
-  VERDE: '#3A5A40',
-  AMARILLO: '#F0D307'
+  AZUL: 'bg-blue-500', 
+  ROJO: 'bg-red-600',
+  VERDE: 'bg-green-600',
+  AMARILLO: 'bg-yellow-400'
 })
