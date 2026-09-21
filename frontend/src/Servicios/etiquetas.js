@@ -1,35 +1,35 @@
-import { COLORES } from "./colores"
+import { COLORES_ETIQUETAS } from "../Constantes/estilos"
 import { esperar, generarIdEtiquetas } from "./simulador"
 
 export const etiquetas = [
     {
         id: 1000,
         nombre: "Super",
-        color: COLORES.AZUL, // podria ser un enum con los colores disponibles
+        color: COLORES_ETIQUETAS.AZUL,
         activa: true
     },
     {
         id: 1001,
         nombre: "Alquiler",
-        color: COLORES.AMARILLO,
+        color: COLORES_ETIQUETAS.AMARILLO,
         activa: true
     },
     {
         id: 1002,
         nombre: "Gym",
-        color: COLORES.VERDE,
+        color: COLORES_ETIQUETAS.VERDE,
         activa: true
     },
     {
         id: 1003,
         nombre: "Trabajo",
-        color: COLORES.VERDE,
+        color: COLORES_ETIQUETAS.VERDE,
         activa: true
     },
     {
         id: 1004,
         nombre: "Gasto Irresponsable",
-        color: COLORES.ROJO,
+        color: COLORES_ETIQUETAS.ROJO,
         activa: false
     }
 ]

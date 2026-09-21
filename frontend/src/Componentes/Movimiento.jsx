@@ -1,18 +1,12 @@
 import { useState } from 'react'
 import Etiqueta from './Etiqueta'
 import { formatearFecha } from '../Utils/fechas'
-
-const ESTILO_POR_TIPO = {
-  Ingreso: { signo: '+', color: 'text-moss' },
-  Gasto: { signo: '-', color: 'text-red-700' },
-  Deuda: { signo: '-', color: 'text-clay' },
-  Ahorro: { signo: '', color: 'text-blue-700' },
-}
+import { TIPOS_MOVIMIENTO } from '../Constantes/estilos'
 
 function Movimiento({ movimiento, etiqueta }) {
   const [expandido, setExpandido] = useState(false)
 
-  const estilo = ESTILO_POR_TIPO[movimiento.tipo] ?? { signo: '', color: 'text-ink' }
+  const estilo = TIPOS_MOVIMIENTO[movimiento.tipo] ?? { signo: '', color: 'text-ink' }
   const montoFormateado = movimiento.monto.toLocaleString('es-AR', {
     style: 'currency',
     currency: 'ARS',
