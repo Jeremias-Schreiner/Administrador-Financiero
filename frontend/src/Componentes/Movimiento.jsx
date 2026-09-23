@@ -6,7 +6,7 @@ import { TIPOS_MOVIMIENTO } from '../Constantes/estilos'
 function Movimiento({ movimiento, etiqueta }) {
   const [expandido, setExpandido] = useState(false)
 
-  const estilo = TIPOS_MOVIMIENTO[movimiento.tipo] ?? { signo: '', color: 'text-ink' }
+  const estilo = TIPOS_MOVIMIENTO[movimiento.tipo] ?? { signo: '', claseTexto: 'text-ink' }
   const montoFormateado = movimiento.monto.toLocaleString('es-AR', {
     style: 'currency',
     currency: 'ARS',
@@ -24,8 +24,8 @@ function Movimiento({ movimiento, etiqueta }) {
 
         <span className="flex-1 truncate text-sm ">{movimiento.descripcion}</span>
 
-        <span className={`text-sm font-medium tabular-nums ${estilo.color}`}>
-          {estilo.signo}
+        <span className={`text-sm font-medium tabular-nums ${estilo.claseTexto}`}>
+          {estilo.signo !== "" ? estilo.signo + " ": estilo.signo}
           {montoFormateado}
         </span>
       </div>
@@ -39,7 +39,7 @@ function Movimiento({ movimiento, etiqueta }) {
           aria-expanded={expandido}
           className="w-full flex items-center justify-between gap-3 py-3 text-left"
         >
-          <span className={`flex-1 truncate text-2xl font-medium ${estilo.color}`}>
+          <span className={`flex-1 truncate text-2xl font-medium ${estilo.claseTexto}`}>
             {movimiento.descripcion}
           </span>
           <svg
@@ -64,8 +64,8 @@ function Movimiento({ movimiento, etiqueta }) {
                 Etiqueta: <Etiqueta nombre={etiqueta.nombre} color={etiqueta.color} />
               </div>
             )}
-            <div className={`font-medium ${estilo.color}`}>
-              {estilo.signo}
+            <div className={`font-medium ${estilo.claseTexto}`}>
+              {estilo.signo !== "" ? estilo.signo + " ": estilo.signo}
               {montoFormateado}
             </div>
           </div>
