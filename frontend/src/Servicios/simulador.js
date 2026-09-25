@@ -1,13 +1,15 @@
 // archivo de utils para simular el comportamiento de la bbd y tiempos de 
 // espera de una api
 
-let idEtiquetas = 1004
+let idEtiquetas = 1006
 export function generarIdEtiquetas(){
     idEtiquetas ++
     return idEtiquetas
 }
 
-let idMovimientos = 1004
+// debe coincidir con el ultimo id usado en movimientos.js, si no el proximo
+// movimiento creado quedaria con un id duplicado
+let idMovimientos = 1013
 export function generarIdMovimientos(){
     idMovimientos ++
     return idMovimientos

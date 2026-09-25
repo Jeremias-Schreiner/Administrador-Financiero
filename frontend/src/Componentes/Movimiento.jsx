@@ -13,7 +13,7 @@ function Movimiento({ movimiento, etiqueta }) {
   })
 
   return (
-    <li className="border-b border-ink/10 px-6 py-2">
+    <li className="border-b border-ink/10 px-6 py-2 cursor-pointer">
       {/* --- Version desktop: fila completa, siempre visible a partir de "lg" --- */}
       <div className="hidden lg:flex items-center gap-3 py-3  hover:bg-ink/5 transition-colors">
         <span className="w-20 shrink-0 text-xs text-ink/50 tabular-nums">

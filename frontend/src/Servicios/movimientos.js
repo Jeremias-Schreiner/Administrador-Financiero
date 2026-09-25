@@ -1,6 +1,6 @@
 import { esperar,generarIdMovimientos } from "./simulador"
 
-    //deberia mostrarse en el front en formato fecha dd/mm/yy
+//deberia mostrarse en el front en formato fecha dd/mm/yy
 let movimientos = [
     {
         id: 1000,
@@ -37,12 +37,115 @@ let movimientos = [
         etiquetaId : 1004,
         fecha: "2026-09-06",
         eliminado: false,
+    },
+    {
+        id: 1004,
+        tipo: "Ahorro",
+        monto: 200000,
+        descripcion: "Plazo fijo",
+        etiquetaId: 1005,
+        fecha: "2026-09-10",
+        eliminado: false,
+    },
+    {
+        id: 1005,
+        tipo: "Gasto",
+        monto: 18990,
+        descripcion: "Supermercado Coto",
+        etiquetaId: 1000,
+        fecha: "2026-09-12",
+        eliminado: false,
+    },
+    {
+        id: 1006,
+        tipo: "Gasto",
+        monto: 15400,
+        descripcion: "Entradas cine",
+        etiquetaId: 1004,
+        fecha: "2026-09-09",
+        eliminado: false,
+    },
+    {
+        id: 1007,
+        tipo: "Gasto",
+        monto: 9800,
+        descripcion: "Gym mensual",
+        etiquetaId: 1002,
+        fecha: "2026-09-05",
+        eliminado: false,
+    },
+    {
+        id: 1008,
+        tipo: "Ingreso",
+        monto: 85000,
+        descripcion: "Freelance diseño web",
+        etiquetaId: 1003,
+        fecha: "2026-08-31",
+        eliminado: false,
+    },
+    {
+        id: 1009,
+        tipo: "Gasto",
+        monto: 43200,
+        descripcion: "Nafta",
+        etiquetaId: 1006,
+        fecha: "2026-08-29",
+        eliminado: false,
+    },
+    {
+        id: 1010,
+        tipo: "Deuda",
+        monto: 120000,
+        descripcion: "Cuota notebook",
+        etiquetaId: 1004,
+        fecha: "2026-08-25",
+        eliminado: false,
+    },
+    {
+        id: 1011,
+        tipo: "Gasto",
+        monto: 400000,
+        descripcion: "Alquiler",
+        etiquetaId: 1001,
+        fecha: "2026-08-07",
+        eliminado: false,
+    },
+    {
+        id: 1012,
+        tipo: "Ingreso",
+        monto: 1700000,
+        descripcion: "Sueldo Mensual",
+        etiquetaId: 1003,
+        fecha: "2026-08-02",
+        eliminado: false,
+    },
+    {
+        id: 1013,
+        tipo: "Gasto",
+        monto: 32750.50,
+        descripcion: "Mercado del mes",
+        etiquetaId: 1000,
+        fecha: "2026-08-19",
+        eliminado: false,
     }
 ]
 
-export async function obtenerMovimientos(){
+export async function obtenerMovimientos({ pagina = 1, porPagina= 5 }={}){
     await esperar()
-    return movimientos.filter((movimiento)=>{ return !movimiento.eliminado})
+    const inicioPagina = (pagina - 1) * porPagina
+    const finPagina = inicioPagina + porPagina
+    
+    const movimientosAux = movimientos
+        .filter((mov)=>!mov.eliminado)
+        .sort((movA,movB)=>{return movB.fecha.localeCompare(movA.fecha)})
+    
+
+    const paginaMovimiento = movimientosAux.slice(inicioPagina,finPagina)
+    const movimientosPaginas = {
+        movimientos: paginaMovimiento,
+        paginasCant: Math.ceil(movimientosAux.length/porPagina)
+    }
+    return movimientosPaginas
 }
 
 export async function crearMovimiento(movimiento) {

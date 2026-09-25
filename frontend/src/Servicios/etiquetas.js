@@ -31,6 +31,18 @@ export const etiquetas = [
         nombre: "Gasto Irresponsable",
         color: COLORES_ETIQUETAS.ROJO,
         activa: false
+    },
+    {
+        id:1005,
+        nombre: "Ahorro",
+        color: COLORES_ETIQUETAS.VERDE,
+        activa: true
+    },
+    {
+        id:1006,
+        nombre: "Transporte",
+        color: COLORES_ETIQUETAS.ROJO,
+        activa: true
     }
 ]
 
