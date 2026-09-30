@@ -1,39 +1,51 @@
+// El uso de TIPOs_MOVIMIENTO ESTA MAL EN SI
+// porque es una estructura local en lugar de consumir una api
 import { TIPOS_MOVIMIENTO } from "../Constantes/estilos"
 import { useState } from "react"
 
-import { crearMovimiento } from "../Servicios/movimientos"
+import { crearMovimiento, editarMovimiento } from "../Servicios/movimientos"
 
-function FormularioMovimiento({ etiquetas, alGuardar }) {
+function FormularioMovimiento({ etiquetas, alGuardar, movimientoEditando }) {
     const hoy = new Date()
     // que quilombo la fehca en js, quien fue el criminal que se le ocurrio que el primer
     // mes sea 0???? ENERO = 0??????????
     const fechaHoy = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, "0")}-${String(hoy.getDate()).padStart(2, "0")}`
 
+    // Si bien es mov nuevo representa tanto el nuevo como
+    // el editado en caso de existir
     const [movimientoNuevo, setMovimientoNuevo] = useState({
-        tipo: "",
-        monto: "",
-        descripcion: "",
-        fecha: fechaHoy,
-        etiquetaId: ""
+        tipo: movimientoEditando?.tipo ?? "",
+        monto: movimientoEditando != null ? String(movimientoEditando.monto) : "", descripcion: movimientoEditando?.descripcion ?? "",
+        fecha: movimientoEditando?.fecha ?? fechaHoy,
+        etiquetaId: movimientoEditando?.etiquetaId != null ? String(movimientoEditando.etiquetaId) : ""
     })
+    const [movimientoEnviado, setMovimientoEnviado] = useState(false)
 
     const claseCampo =
         "w-full rounded-lg border border-ink/15 bg-white px-3 py-1 text-sm text-ink shadow-sm focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/30 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
     const claseLabel = "mb-1 block text-sm font-medium text-ink/70"
 
+
+
     return (
         <form className="flex flex-col gap-4"
             onSubmit={async (event) => {
                 event.preventDefault()
+                const datos = {
+                    ...movimientoNuevo,
+                    monto: Number(String(movimientoNuevo.monto).replace(",", ".")),
+                    etiquetaId: Number(movimientoNuevo.etiquetaId)
+                }
+                if (movimientoEnviado) return
                 try {
-                    await crearMovimiento({
-                        ...movimientoNuevo,
-                        monto: Number(movimientoNuevo.monto),
-                        etiquetaId: Number(movimientoNuevo.etiquetaId)
-                    })
+                    setMovimientoEnviado(true)
+                    if (movimientoEditando) await editarMovimiento(movimientoEditando.id, datos)
+                    else await crearMovimiento(datos)
                     alGuardar()
                 } catch (error) {
                     console.error(error) // por ahora, más adelante mostramos algo en el form
+                } finally {
+                    setMovimientoEnviado(false)
                 }
             }}>
             <div>
@@ -55,10 +67,9 @@ function FormularioMovimiento({ etiquetas, alGuardar }) {
                     className={claseCampo}
                     value={movimientoNuevo.monto}
                     onChange={(event) => {
-                        const valor = event.target.value
                         setMovimientoNuevo((MovimientoActual) => ({
                             ...MovimientoActual,
-                            monto: valor === "" ? "" : Number(valor)
+                            monto: event.target.value
                         }))
                     }} />
             </div>
@@ -75,7 +86,7 @@ function FormularioMovimiento({ etiquetas, alGuardar }) {
 
             <div>
                 <label htmlFor="Fecha" className={claseLabel}>Fecha del Movimiento</label>
-                <input type="date" id="Fecha" name="Fecha"
+                <input type="date" id="Fecha" name="Fecha" required
                     className={claseCampo}
                     value={movimientoNuevo.fecha}
                     onChange={(event) => {
@@ -96,9 +107,9 @@ function FormularioMovimiento({ etiquetas, alGuardar }) {
             </div>
 
             <div className="flex justify-end pt-2">
-                <button type="submit"
+                <button type="submit" id="Submit-Button" disabled={movimientoEnviado}
                     className="rounded-xl bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-lg transition hover:bg-blue-700 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-                    Crear
+                    {movimientoEnviado ? "Guardando..." : movimientoEditando ? "Guardar cambios" : "Crear"}
                 </button>
             </div>
         </form>

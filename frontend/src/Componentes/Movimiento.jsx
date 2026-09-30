@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import Etiqueta from './Etiqueta'
+import AccionesMovimiento from './AccionesMovimiento'
 import { formatearFecha } from '../Utils/fechas'
 import { TIPOS_MOVIMIENTO } from '../Constantes/estilos'
 
-function Movimiento({ movimiento, etiqueta }) {
+function Movimiento({ movimiento, etiqueta, alEditar, alEliminar }) {
   const [expandido, setExpandido] = useState(false)
 
   const estilo = TIPOS_MOVIMIENTO[movimiento.tipo] ?? { signo: '', claseTexto: 'text-ink' }
@@ -14,24 +15,33 @@ function Movimiento({ movimiento, etiqueta }) {
 
   return (
     <li className="border-b border-ink/10 px-6 py-2 cursor-pointer">
-      {/* --- Version desktop: fila completa, siempre visible a partir de "lg" --- */}
-      <div className="hidden lg:flex items-center gap-3 py-3  hover:bg-ink/5 transition-colors">
+      {/* --- Version desktop --- */}
+      <div
+        className="hidden lg:flex items-center gap-3 py-3 hover:bg-ink/5 transition-colors"
+        onClick={() => alEditar(movimiento)}
+      >
         <span className="w-20 shrink-0 text-xs text-ink/50 tabular-nums">
           {formatearFecha(movimiento.fecha)}
         </span>
 
         {etiqueta && <Etiqueta nombre={etiqueta.nombre} color={etiqueta.color} />}
 
-        <span className="flex-1 truncate text-sm ">{movimiento.descripcion}</span>
+        <span className="flex-1 truncate text-sm">{movimiento.descripcion}</span>
 
-        <span className={`text-sm font-medium tabular-nums ${estilo.claseTexto}`}>
-          {estilo.signo !== "" ? estilo.signo + " ": estilo.signo}
+        <span className={`shrink-0 text-sm font-medium tabular-nums ${estilo.claseTexto}`}>
+          {estilo.signo !== "" ? estilo.signo + " " : estilo.signo}
           {montoFormateado}
         </span>
+
+        <AccionesMovimiento
+          movimiento={movimiento}
+          alEditar={alEditar}
+          alEliminar={alEliminar}
+        />
       </div>
       {/* --- Fin de version Desktop */}
 
-      {/* --- Version mobile/tablet: acordeon, solo por debajo de "lg" --- */}
+      {/* --- Version mobile/tablet --- */}
       <div className="lg:hidden text">
         <button
           type="button"
@@ -43,9 +53,8 @@ function Movimiento({ movimiento, etiqueta }) {
             {movimiento.descripcion}
           </span>
           <svg
-            className={`h-4 w-4 shrink-0 text-ink/40 transition-transform ${
-              expandido ? 'rotate-180' : ''
-            }`}
+            className={`h-4 w-4 shrink-0 text-ink/40 transition-transform ${expandido ? 'rotate-180' : ''
+              }`}
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -65,8 +74,17 @@ function Movimiento({ movimiento, etiqueta }) {
               </div>
             )}
             <div className={`font-medium ${estilo.claseTexto}`}>
-              {estilo.signo !== "" ? estilo.signo + " ": estilo.signo}
+              {estilo.signo !== "" ? estilo.signo + " " : estilo.signo}
               {montoFormateado}
+            </div>
+
+            {/* Solo visible con el acordeon abierto: {expandido && (...)} lo garantiza */}
+            <div className="pt-2">
+              <AccionesMovimiento
+                movimiento={movimiento}
+                alEditar={alEditar}
+                alEliminar={alEliminar}
+              />
             </div>
           </div>
         )}
