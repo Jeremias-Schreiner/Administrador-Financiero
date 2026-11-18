@@ -1,12 +1,12 @@
 import BotonAgregar from '../Componentes/BotonAgregar'
 import Paginado from '../Componentes/Paginado'
 
-function BarraAcciones({ pagina, paginasCant, setPagina, alAgregar }) {
+function BarraAcciones({ pagina, paginasCant, setPagina, alAgregar, ariaLabelAgregar }) {
   return (
     <footer className="mt-6 grid grid-cols-3 items-center">
       <div />
       <div className="justify-self-center">
-        <BotonAgregar alPresionar={alAgregar} />
+        <BotonAgregar alPresionar={alAgregar} ariaLabel={ariaLabelAgregar} />
       </div>
       <div className="justify-self-end">
         <Paginado

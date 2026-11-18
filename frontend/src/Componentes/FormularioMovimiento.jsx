@@ -41,7 +41,7 @@ function FormularioMovimiento({ etiquetas, alGuardar, movimientoEditando }) {
                     setMovimientoEnviado(true)
                     if (movimientoEditando) await editarMovimiento(movimientoEditando.id, datos)
                     else await crearMovimiento(datos)
-                    alGuardar()
+                    await alGuardar()
                 } catch (error) {
                     console.error(error) // por ahora, más adelante mostramos algo en el form
                 } finally {
